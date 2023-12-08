@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -17,6 +18,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)
             throws Exception {
+
         // httpSecurity.formLogin(formlogin ->
         // formlogin.loginPage("/login").permitAll());
         httpSecurity.authorizeHttpRequests(authorize -> authorize.requestMatchers("/user/**").hasRole("USER"));
@@ -24,6 +26,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
         httpSecurity.formLogin(formlogin -> formlogin.permitAll())
                 .csrf((csrf) -> csrf.disable());
+        httpSecurity.exceptionHandling(exception -> exception.accessDeniedPage("/notAuthorized"));
         return httpSecurity.build();
     }
 

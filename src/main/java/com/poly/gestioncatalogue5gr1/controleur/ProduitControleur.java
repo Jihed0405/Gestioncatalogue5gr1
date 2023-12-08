@@ -47,7 +47,7 @@ public class ProduitControleur {
         return "redirect:/user/index";
     }
 
-    @GetMapping("/formproduit")
+    @GetMapping("/admin/formproduit")
     public String formAjout(Model m) {
         m.addAttribute("categories", categorieRepository.findAll());
         m.addAttribute("produit", new Produit());
@@ -72,6 +72,11 @@ public class ProduitControleur {
         m.addAttribute("produit", p);
         m.addAttribute("categories", categorieRepository.findAll());
         return "ajouterProduit";
+    }
+
+    @GetMapping({ "/notAuthorized" })
+    public String unauthorized() {
+        return "notAuthorized";
     }
 
 }
